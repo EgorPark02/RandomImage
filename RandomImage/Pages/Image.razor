@@ -1,0 +1,30 @@
+﻿@page "/image"
+
+<h3>Генерация случайного изображения</h3>
+
+<img src="@ImageUrl" />
+
+<button class="btn btn-primary" @onclick="GenerateNewImageButton">Генерация нового изображения</button>
+
+@code {
+    private string ImageUrl { get; set; }
+    private int ImageVersion { get; set; }
+
+    private void GenerateRandomImage()
+    {
+        var width = 300;
+        var height = 300;
+        ImageVersion++;
+        ImageUrl = $"https://picsum.photos/{width}/{height}?random={ImageVersion}";
+    }
+
+    private void GenerateNewImageButton()
+    {
+        GenerateRandomImage();
+    }
+
+    protected override void OnInitialized()
+    {
+        GenerateRandomImage();
+    }
+}
