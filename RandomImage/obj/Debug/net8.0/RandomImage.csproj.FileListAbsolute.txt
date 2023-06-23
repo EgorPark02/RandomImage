@@ -30,3 +30,4 @@ C:\Users\egorp\RiderProjects\RandomImage\RandomImage\obj\Debug\net8.0\refint\Ran
 C:\Users\egorp\RiderProjects\RandomImage\RandomImage\obj\Debug\net8.0\RandomImage.pdb
 C:\Users\egorp\RiderProjects\RandomImage\RandomImage\obj\Debug\net8.0\RandomImage.genruntimeconfig.cache
 C:\Users\egorp\RiderProjects\RandomImage\RandomImage\obj\Debug\net8.0\ref\RandomImage.dll
+C:\Users\egorp\RiderProjects\RandomImage\RandomImage\obj\Debug\net8.0\RandomImage.sourcelink.json

@@ -4,18 +4,18 @@
 
 <img src="@ImageUrl" />
 
-<button class="btn btn-primary" @onclick="GenerateNewImageButton">Генерация нового изображения</button>
+<button class="btn btn-primary" @onclick="GenerateNewImageButton">Генерация изображения</button>
 
 @code {
     private string ImageUrl { get; set; }
     private int ImageVersion { get; set; }
+    private int Width { get; set; } = 300;
+    private int Height { get; set; } = 300;
 
     private void GenerateRandomImage()
     {
-        var width = 300;
-        var height = 300;
         ImageVersion++;
-        ImageUrl = $"https://picsum.photos/{width}/{height}?random={ImageVersion}";
+        ImageUrl = $"https://loremflickr.com/{Width}/{Height}?imageVersion={ImageVersion}";
     }
 
     private void GenerateNewImageButton()
