@@ -1,30 +1,47 @@
 ﻿@page "/image"
+@using Microsoft.Extensions.Caching.Memory
+@inject IMemoryCache Cache
+@inject ILogger<Image> Logger
 
 <h3>Генерация случайного изображения</h3>
 
-<img src="@ImageUrl" />
+<img src="@ImageUrl"/>
 
 <button class="btn btn-primary" @onclick="GenerateNewImageButton">Генерация изображения</button>
 
 @code {
-    private string ImageUrl { get; set; }
+    private string? ImageUrl { get; set; }
     private int ImageVersion { get; set; }
     private int Width { get; set; } = 300;
     private int Height { get; set; } = 300;
 
-    private void GenerateRandomImage()
+    private async Task GenerateRandomImageAsync()
     {
-        ImageVersion++;
-        ImageUrl = $"https://loremflickr.com/{Width}/{Height}?imageVersion={ImageVersion}";
+        if (Cache.TryGetValue("RandomImage", out string? cachedImageUrl))
+        {
+            ImageUrl = cachedImageUrl;
+            Logger.LogInformation($"Изображение в кэше: {ImageUrl}");
+        }
+        else
+        {
+            ImageVersion = new Random().Next(1000);
+            ImageUrl = $"https://loremflickr.com/{Width}/{Height}?lock={ImageVersion}";
+            
+            Cache.Set("RandomImage", ImageUrl, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
+            });
+            Logger.LogInformation($"Сгенерировано новое изображение: {ImageUrl}");
+        }
     }
 
-    private void GenerateNewImageButton()
+    private async Task GenerateNewImageButton()
     {
-        GenerateRandomImage();
+        await GenerateRandomImageAsync();
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        GenerateRandomImage();
+        await GenerateRandomImageAsync();
     }
 }
